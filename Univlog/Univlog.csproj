@@ -96,6 +96,7 @@
     <None Include="packages.config" />
     <Content Include="View\Layouts\Footer.cshtml" />
     <Content Include="View\Layouts\Header.cshtml" />
+    <Content Include="View\Layouts\Layout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
