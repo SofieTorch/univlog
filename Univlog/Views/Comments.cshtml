@@ -19,14 +19,13 @@
     }
 }
 
-<div class="mt-4 p-5 bg-light rounded">
+<div class="my-4 p-5 bg-light rounded">
     <h1>@currentPost.Title</h1>
 </div>
 
 <form method="post">
-    <div class="mb-3">
-        <label for="commentTextField" class="form-label">Comenta algo acerca de @currentPost.Title !</label>
-        <textarea class="form-control" id="commentTextField" name="commentInput" rows="3"></textarea>
+    <div class="mb-2">
+        <textarea class="form-control" id="commentTextField" name="commentInput" rows="3" placeholder="Comenta algo acerca de @currentPost.Title!"></textarea>
     </div>
 
     <input type="submit" class="btn btn-light" value="Agregar comentario" />
