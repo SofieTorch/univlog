@@ -6,9 +6,7 @@
     int postId = Convert.ToInt32(UrlData[0]);
     PostAccess postAccess = new PostAccess();
     Post currentPost = postAccess.Get(postId);
-
     CommentAccess commentAccess = new CommentAccess();
-
     IEnumerable<Comment> comments = commentAccess.GetFrom(currentPost.PostId);
 
     if (IsPost)
@@ -42,20 +40,21 @@
 
 @foreach (Comment comment in comments)
 {
-    var result = Markdown.ToHtml(comment.Content);
+    var commentFormatted = Markdown.ToHtml(comment.Content);
 
     <div class="card my-4">
         <div class="card-body">
             <h5 class="card-title">@comment.User.FullName</h5>
             <h6 class="card-subtitle mb-2 text-muted">@comment.CreatedAt</h6>
             <hr />
-            <p class="card-text">@(new HtmlString(result))</p>
-            <a class="card-link" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Editar</a>
-            <a href="#" class="card-link">Eliminar</a>
-
-            @RenderPage("~/Components/_ModalCommentEditor.cshtml", comment)
+            <p class="card-text">@(new HtmlString(commentFormatted))</p>
+            <a class="card-link" data-bs-toggle="modal" data-bs-target="#commentEditor">Editar</a>
+            <a class="card-link" data-bs-toggle="modal" data-bs-target="#commentDeletion">Eliminar</a>
         </div>
     </div>
+    
+    @RenderPage("~/Components/_ModalCommentEditor.cshtml", comment)
+    @RenderPage("~/Components/_ModalCommentDeletion.cshtml", comment)
 }
 
 

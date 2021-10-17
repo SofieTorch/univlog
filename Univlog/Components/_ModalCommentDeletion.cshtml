@@ -1,0 +1,36 @@
+﻿@using Univlog.Models;
+@using Univlog.Data_Access;
+@using Markdig;
+@{
+    Comment comment = Page[0];
+    var commentFormatted = Markdown.ToHtml(comment.Content);
+
+    if (IsPost)
+    {
+        if (Request.Form["delete"] != null)
+        {
+            CommentAccess commentAccess = new CommentAccess();
+            bool success = commentAccess.Delete(comment);
+        }
+    }
+}
+
+<div class="modal fade" id="commentDeletion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">¿Eliminar el siguiente comentario?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                    @(new HtmlString(commentFormatted))
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                    <input type="submit" class="btn btn-primary" name="delete" value="Eliminar comentario" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

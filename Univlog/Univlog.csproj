@@ -125,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Components\_ModalCommentEditor.cshtml" />
+    <Content Include="Components\_ModalCommentDeletion.cshtml" />
     <None Include="Index.cshtml" />
     <Content Include="libman.json" />
     <None Include="packages.config" />

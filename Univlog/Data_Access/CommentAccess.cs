@@ -41,5 +41,15 @@ namespace Univlog.Data_Access
             bool success = rowsAffected == 1;
             return success;
         }
+
+        public bool Delete(Comment comment)
+        {
+            Database conn = Database.Open("UnivlogDB");
+            string query = "DELETE FROM Comment WHERE CommentId = @0";
+
+            int rowsAffected = conn.Execute(query, comment.CommentId);
+            bool success = rowsAffected == 1;
+            return success;
+        }
     }
 }
