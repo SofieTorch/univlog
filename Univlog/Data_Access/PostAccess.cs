@@ -36,7 +36,7 @@ namespace Univlog.Data_Access
         public Post Get(int id)
         {
             Database conn = Database.Open("UnivlogDB");
-            string query = "SELECT * FROM Post WHERE Topic = @0";
+            string query = "SELECT * FROM Post WHERE PostId = @0";
 
             var row = conn.QuerySingle(query, id);
             Post res = new Post(row.PostId, row.Title, row.Topic);

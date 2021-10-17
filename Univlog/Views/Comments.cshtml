@@ -1,22 +1,52 @@
 ﻿@using Univlog.Data_Access;
 @using Univlog.Models;
+@using Markdig;
 @{
     Layout = "~/Views/Layouts/Layout.cshtml";
     int postId = Convert.ToInt32(UrlData[0]);
     PostAccess postAccess = new PostAccess();
     Post currentPost = postAccess.Get(postId);
+
+    CommentAccess commentAccess = new CommentAccess();
+    IEnumerable<Comment> comments = commentAccess.GetFrom(currentPost.PostId);
+
+    if (IsPost)
+    {
+        string commentContent = Request.Form["commentInput"];
+        Comment comment = new Comment(commentContent, currentPost.PostId, 1);
+        commentAccess.Add(comment);
+        comments = commentAccess.GetFrom(currentPost.PostId);
+    }
 }
 
 <div class="mt-4 p-5 bg-light rounded">
     <h1>@currentPost.Title</h1>
 </div>
 
-<form>
+<form method="post">
     <div class="mb-3">
-        <label for="exampleFormControlTextarea1" class="form-label">Comenta algo acerca de @currentPost.Title !</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        <label for="commentTextField" class="form-label">Comenta algo acerca de @currentPost.Title !</label>
+        <textarea class="form-control" id="commentTextField" name="commentInput" rows="3"></textarea>
     </div>
-    <input type="submit" class="btn btn-light" value="Agregar comentario"/>
+
+    <input type="submit" class="btn btn-light" value="Agregar comentario" />
 </form>
+
+@foreach (Comment comment in comments)
+{
+    var result = Markdown.ToHtml(comment.Content);
+
+    <div class="card my-4">
+        <div class="card-body">
+            <h5 class="card-title">@comment.User.FullName</h5>
+            <h6 class="card-subtitle mb-2 text-muted">@comment.CreatedAt</h6>
+            <hr/>
+            <p class="card-text">@(new HtmlString(result))</p>
+            <a href="#" class="card-link">Editar</a>
+            <a href="#" class="card-link">Eliminar</a>
+        </div>
+    </div>
+}
+
 
 
