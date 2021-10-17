@@ -112,6 +112,7 @@
     <Content Include="Views\Layouts\Layout.cshtml" />
     <Content Include="Views\Subjects.cshtml" />
     <Content Include="Views\Teachers.cshtml" />
+    <Content Include="Views\Comments.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

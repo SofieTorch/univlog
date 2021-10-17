@@ -11,6 +11,9 @@ namespace Univlog.Models
         public string Title { private set; get; }
         public byte Topic{ private set; get; }
 
+        public Post()
+        { }
+
         public Post(short postId, string title, byte topic)
         {
             PostId = postId;

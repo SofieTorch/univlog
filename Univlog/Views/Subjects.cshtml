@@ -7,18 +7,15 @@
     IEnumerable<Post> subjectsPosts = dbAccess.GetSubjectsPosts();
 }
 
-<div class="container">
-    <h3>Materias :D</h3>
+<h3>Materias :D</h3>
 
-    @foreach (Post subject in subjectsPosts)
-    {
-        <div class="card my-4">
-            <div class="card-body">
-                <h5 class="card-title">@subject.Title</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Ver comentarios</a>
-            </div>
+@foreach (Post subject in subjectsPosts)
+{
+    <div class="card my-4">
+        <div class="card-body">
+            <h5 class="card-title">@subject.Title</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <a href="@Href("~/Views/Comments", subject.PostId)" class="btn btn-primary">Ver comentarios</a>
         </div>
-    }
-
-</div>
+    </div>
+}

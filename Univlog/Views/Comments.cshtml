@@ -1,0 +1,22 @@
+﻿@using Univlog.Data_Access;
+@using Univlog.Models;
+@{
+    Layout = "~/Views/Layouts/Layout.cshtml";
+    int postId = Convert.ToInt32(UrlData[0]);
+    PostAccess postAccess = new PostAccess();
+    Post currentPost = postAccess.Get(postId);
+}
+
+<div class="mt-4 p-5 bg-light rounded">
+    <h1>@currentPost.Title</h1>
+</div>
+
+<form>
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Comenta algo acerca de @currentPost.Title !</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+    </div>
+    <input type="submit" class="btn btn-light" value="Agregar comentario"/>
+</form>
+
+

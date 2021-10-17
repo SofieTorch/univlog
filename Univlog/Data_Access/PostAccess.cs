@@ -32,5 +32,16 @@ namespace Univlog.Data_Access
 
             return res;
         }
+
+        public Post Get(int id)
+        {
+            Database conn = Database.Open("UnivlogDB");
+            string query = "SELECT * FROM Post WHERE Topic = @0";
+
+            var row = conn.QuerySingle(query, id);
+            Post res = new Post(row.PostId, row.Title, row.Topic);
+
+            return res;
+        }
     }
 }
