@@ -8,13 +8,21 @@
     Post currentPost = postAccess.Get(postId);
 
     CommentAccess commentAccess = new CommentAccess();
+
     IEnumerable<Comment> comments = commentAccess.GetFrom(currentPost.PostId);
 
     if (IsPost)
     {
-        string commentContent = Request.Form["commentInput"];
-        Comment comment = new Comment(commentContent, currentPost.PostId, 1);
-        commentAccess.Add(comment);
+        if(Request.Form["add"] != null) {
+            string commentContent = Request.Form["commentInput"];
+            Comment comment = new Comment(commentContent, currentPost.PostId, 1);
+            commentAccess.Add(comment);
+            refreshComments();
+        }
+    }
+
+    void refreshComments()
+    {
         comments = commentAccess.GetFrom(currentPost.PostId);
     }
 }
@@ -25,10 +33,11 @@
 
 <form method="post">
     <div class="mb-2">
-        <textarea class="form-control" id="commentTextField" name="commentInput" rows="3" placeholder="Comenta algo acerca de @currentPost.Title!"></textarea>
+        <textarea class="form-control" id="commentTextField" name="commentInput" rows="3"
+                  placeholder="Comenta algo acerca de @currentPost.Title!"></textarea>
     </div>
 
-    <input type="submit" class="btn btn-light" value="Agregar comentario" />
+    <input type="submit" class="btn btn-light" name="add" value="Agregar comentario"/>
 </form>
 
 @foreach (Comment comment in comments)
@@ -39,10 +48,12 @@
         <div class="card-body">
             <h5 class="card-title">@comment.User.FullName</h5>
             <h6 class="card-subtitle mb-2 text-muted">@comment.CreatedAt</h6>
-            <hr/>
+            <hr />
             <p class="card-text">@(new HtmlString(result))</p>
-            <a href="#" class="card-link">Editar</a>
+            <a class="card-link" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Editar</a>
             <a href="#" class="card-link">Eliminar</a>
+
+            @RenderPage("~/Components/_ModalCommentEditor.cshtml", comment)
         </div>
     </div>
 }

@@ -31,5 +31,15 @@ namespace Univlog.Data_Access
 
             return success;
         }
+
+        public bool Update(Comment comment)
+        {
+            Database conn = Database.Open("UnivlogDB");
+            string query = "UPDATE Comment SET Content = @0 WHERE CommentId = @1";
+
+            int rowsAffected = conn.Execute(query, comment.Content, comment.CommentId);
+            bool success = rowsAffected == 1;
+            return success;
+        }
     }
 }

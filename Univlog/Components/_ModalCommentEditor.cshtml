@@ -1,0 +1,36 @@
+﻿@using Univlog.Models;
+@using Univlog.Data_Access;
+@{
+    Comment comment = Page[0];
+
+    if (IsPost) {
+        if (Request.Form["edit"] != null) {
+            string newContent = Request.Form["commentEditor"];
+            comment.Content = newContent;
+            CommentAccess commentAccess = new CommentAccess();
+            bool success = commentAccess.Update(comment);
+        }
+    }
+}
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Editar comentario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                    <div class="mb-2">
+                        <textarea class="form-control" id="commentTextField" name="commentEditor" rows="3">@comment.Content</textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                    <input type="submit" class="btn btn-primary" name="edit" value="Guardar cambios"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
