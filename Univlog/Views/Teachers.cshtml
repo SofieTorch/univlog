@@ -1,5 +1,28 @@
-﻿@{
+﻿@using Univlog.Models;
+@using Univlog.Data_Access;
+@{
     Layout = "~/Views/Layouts/Layout.cshtml";
+    Page.Title = "Univlog | Materias";
+    PostAccess postAccess = new PostAccess();
+    IEnumerable<Post> teachersPosts = postAccess.GetTeachersPosts();
 }
 
-<h1>Docentes :D</h1>
+<div class="my-4 p-5 text-white rounded" style="background: #81063E">
+    <h1>ISI - Docentes</h1>
+</div>
+
+<div class="row row-cols-1 row-cols-md-4 g-4">
+    @foreach (Post teacher in teachersPosts)
+    {
+        <div class="col">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h4 class="card-title mt-2">@teacher.Title</h4>
+                    <div class="d-grid mt-4">
+                        <a href="@Href("~/Views/Comments", teacher.PostId)" class="btn btn-outline-info">Ver comentarios</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
