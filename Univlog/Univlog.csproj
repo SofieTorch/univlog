@@ -112,6 +112,9 @@
     <Content Include="App_Data\UnivlogDB_log.ldf">
       <DependentUpon>UnivlogDB.mdf</DependentUpon>
     </Content>
+    <Content Include="Views\Css\Header_Style.css" />
+    <Content Include="Views\Css\LogInSignUp_Style.css" />
+    <Content Include="Views\Scripts\Header_Script.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -126,7 +129,7 @@
   <ItemGroup>
     <Content Include="Components\_ModalCommentEditor.cshtml" />
     <Content Include="Components\_ModalCommentDeletion.cshtml" />
-    <None Include="Index.cshtml" />
+    <None Include="Views\Index.cshtml" />
     <Content Include="libman.json" />
     <None Include="packages.config" />
     <Content Include="Views\Layouts\Footer.cshtml" />
@@ -135,6 +138,7 @@
     <Content Include="Views\Subjects.cshtml" />
     <Content Include="Views\Teachers.cshtml" />
     <Content Include="Views\Comments.cshtml" />
+    <Content Include="Views\LogInSingUp.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
