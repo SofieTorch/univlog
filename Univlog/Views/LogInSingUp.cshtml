@@ -1,0 +1,168 @@
+﻿@using Univlog.Models;
+@using Univlog.Data_Access;
+
+@{
+    Layout = "~/Views/Layouts/Layout.cshtml";
+    Page.Title = "Univlog | Iniciar Sesión - Registrarse";
+    Session.Contents.RemoveAll();
+    UserAccess userAccess = new UserAccess();
+    User user;
+
+    #region Validation
+    var msgUserIncorrect = "";
+    var msgEmailExists = "";
+    var status = "V";
+
+    Validation.RequireFields("emailLogIn", "El correo es requerido");
+    Validation.RequireFields("passwordLogIn", "La contraseña es requerida");
+
+    Validation.Add("name", Validator.StringLength(25, 2));
+    Validation.Add("firstLastName", Validator.StringLength(20, 2));
+    Validation.Add("secondLastName", Validator.StringLength(20, 2));
+    Validation.Add("password", Validator.StringLength(50, 6));
+    Validation.Add("repeatPassword", Validator.StringLength(50, 6));
+    Validation.Add("password", Validator.EqualsTo("repeatPassword", "Las contraseñas deben ser iguales"));
+
+    Validation.RequireFields("name", "El nombre es requerido");
+    Validation.RequireFields("firstLastName", "El apellido paterno es requerido");
+    Validation.RequireFields("secondLastName", "El apellido materno es requerido");
+    Validation.RequireFields("email", "El correo es requerido");
+    Validation.RequireFields("password", "La contraseña es requerida");
+    Validation.RequireFields("repeatPassword", "La contraseña es requerida");
+    #endregion
+
+    #region IsValid - LogIn - SingUp
+    if (IsPost)
+    {
+        status = Request["status"];
+
+        if (status == "F" && Validation.IsValid("name", "email", "password", "repeatPassword"))
+        {
+            var name = Request["name"];
+            var firstLastName = Request["firstLastName"];
+            var secondLastName = Request["secondLastName"];
+            var email = Request["email"];
+            var password = Request["password"];
+
+            if (!userAccess.EmailExists(email))
+            {
+                user = new User(name, firstLastName, secondLastName, email, password);
+                var role = user.GetRoleByte();
+                user.RoleCode = role;
+
+                if (userAccess.Add(user))
+                {
+                    Session["user"] = user.FullName;
+                    Session["userId"] = user.UserId;
+                    Session["roleStr"] = user.GetRoleString();
+                    Session["role"] = user.RoleCode;
+                    Response.Redirect("~/");
+                }
+            }
+            else
+            {
+                msgEmailExists = "El correo que intenta usar ya está en uso.";
+            }
+        }
+        else if (status == "V" && Validation.IsValid("emailLogIn", "passwordLogIn"))
+        {
+            try
+            {
+                var emailLogIn = Request["emailLogIn"];
+                var passwordLogIn = Request["passwordLogIn"];
+
+                user = userAccess.LogIn(emailLogIn, passwordLogIn);
+
+                if (user != null)
+                {
+                    Session["user"] = user.FullName;
+                    Session["userId"] = user.UserId;
+                    Session["roleStr"] = user.GetRoleString();
+                    Session["role"] = user.RoleCode;
+                    Response.Redirect("~/");
+                }
+                else
+                {
+                    msgUserIncorrect = "Correo o contraseña incorrectas.";
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+    }
+    #endregion
+
+}
+
+<div class="body-session">
+    <div>
+        <h2 class="h2-auth">Ingresa a la plataforma de comentarios de Univalle</h2>
+        <div class="container-session" id="container">
+            <div class="form-container sign-in-container">
+                <form action="#" method="post" class="form-auth">
+                    <h1 class="h1-auth">Inicio de Sesión</h1>
+                    <input type="email" name="emailLogIn" placeholder="Correo" value="@Request["emailLogIn"]" class="input-auth"/>
+                    @Html.ValidationMessage("emailLogIn")
+                    <input type="password" name="passwordLogIn" placeholder="Contraseña" value="@Request["passwordLogIn"]" class="input-auth"/>
+                    @Html.ValidationMessage("passwordLogIn")
+                    <input type="text" hidden="hidden" name="status" value="V"/>
+                    <button class="button-session" name="btnLogIn">Iniciar sesión</button>
+                    <p>@Html.Raw(msgUserIncorrect)</p>
+                </form>
+            </div>
+            <div class="form-container sign-up-container">
+
+                <form action="#" method="post" class="form-auth">
+                    <h1 class="h1-auth">Registro</h1>
+                    <input type="text" name="name" placeholder="Nombre" value="@Request["name"]" class="input-auth" />
+                    @Html.ValidationMessage("name")
+                    <input type="text" name="firstLastName" placeholder="Primer apellido" value="@Request["firstLastName"]" class="input-auth" />
+                    @Html.ValidationMessage("firstLastName")
+                    <input type="text" name="secondLastName" placeholder="Segundo apellido" value="@Request["secondLastName"]" class="input-auth" />
+                    @Html.ValidationMessage("secondLastName")
+                    <input type="email" name="email" placeholder="Correo" value="@Request["email"]" class="input-auth" />
+                    @Html.ValidationMessage("email")
+                    <input type="password" name="password" placeholder="Contraseña" value="@Request["password"]" class="input-auth" />
+                    @Html.ValidationMessage("password")
+                    <input type="password" name="repeatPassword" placeholder="Repita la contraseña" value="@Request["repeatPassword"]" class="input-auth" />
+                    @Html.ValidationMessage("repeatPassword")
+                    <input type="text" hidden="hidden" name="status" value="F" />
+                    <button class="button-session" name="btnSingUp">Registrar</button>
+                    <p>@Html.Raw(msgEmailExists)</p>
+                </form>
+            </div>
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-left">
+                        <h1 class="h1-auth">Bienvenido de vuelta!</h1>
+                        <p class="p-auth">Inicia sesión con tu información personal para acceder a la plataforma</p>
+                        <button class="button-session ghost" id="signIn">Iniciar Sesión</button>
+                    </div>
+                    <div class="overlay-panel overlay-right">
+                        <h1 class="h1-auth">Regístrate!</h1>
+                        <p class="p-auth">Inserta tus datos personales para empezar a comentar con otras personas</p>
+                        <button class="button-session ghost" id="signUp">Registrarse</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const signUpButton = document.getElementById('signUp');
+        const signInButton = document.getElementById('signIn');
+        const container = document.getElementById('container');
+
+        signUpButton.addEventListener('click', () => {
+            container.classList.add("right-panel-active");
+        });
+
+        signInButton.addEventListener('click', () => {
+            container.classList.remove("right-panel-active");
+        });
+    </script>
+</div>

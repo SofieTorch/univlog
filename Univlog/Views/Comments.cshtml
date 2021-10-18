@@ -9,6 +9,25 @@
     CommentAccess commentAccess = new CommentAccess();
     IEnumerable<Comment> comments = commentAccess.GetFrom(currentPost.PostId);
 
+    string showEdition = "";
+    string showAddComment = "";
+
+    if(Convert.ToInt16(Session["role"]) == 1)
+    {
+        showEdition = "initial";
+        showAddComment = "none";
+    }
+    else if (Session["role"] == null)
+    {
+        showEdition = "none";
+        showAddComment = "none";
+    }
+    else
+    {
+        showEdition = "none";
+        showAddComment = "initial";
+    }
+
     Validation.RequireField("commentInput", "No dejes tu comentario vacío D':");
     Validation.Add("commentInput", Validator.StringLength(599));
 
@@ -16,42 +35,44 @@
     {
         if(Request.Form["add"] != null && Validation.IsValid("commentInput")) {
             string commentContent = Request.Form["commentInput"];
-            Comment comment = new Comment(commentContent, currentPost.PostId, 1);
+            Comment comment = new Comment(commentContent, currentPost.PostId, Convert.ToInt16(Session["userId"]));
             commentAccess.Add(comment);
             comments = commentAccess.GetFrom(currentPost.PostId);
         }
     }
 }
 
-<div class="my-4 p-5 bg-light rounded">
-    <h1>@currentPost.Title</h1>
-</div>
-
-<form method="post" action="">
-    <div class="mb-2">
-        <textarea class="form-control" id="commentTextField" name="commentInput" rows="3" maxlength="599"
-                  placeholder="Comenta algo acerca de @currentPost.Title!"></textarea>
+<div class="container">
+    <div class="my-4 p-5 bg-light rounded">
+        <h1>@currentPost.Title</h1>
     </div>
 
-    <p class="text-danger">@Html.ValidationMessage("commentInput")</p>
-    <input type="submit" class="btn btn-light" name="add" value="Agregar comentario" />
-</form>
-
-@foreach (Comment comment in comments)
-{
-    var commentFormatted = Markdown.ToHtml(comment.Content);
-
-    <div class="card my-4">
-        <div class="card-body">
-            <h5 class="card-title">@comment.User.FullName</h5>
-            <h6 class="card-subtitle mb-2 text-muted">@comment.CreatedAt</h6>
-            <hr />
-            <p class="card-text">@(new HtmlString(commentFormatted))</p>
-            <a class="card-link" data-bs-toggle="modal" data-bs-target="#commentEditor_@(comment.CommentId)">Editar</a>
-            <a class="card-link" data-bs-toggle="modal" data-bs-target="#commentDeletion_@(comment.CommentId)">Eliminar</a>
-
-            @RenderPage("~/Components/_ModalCommentEditor.cshtml", comment)
-            @RenderPage("~/Components/_ModalCommentDeletion.cshtml", comment)
+    <form method="post" action="" style="display: @showAddComment">
+        <div class="mb-2">
+            <textarea class="form-control" id="commentTextField" name="commentInput" rows="3" maxlength="599"
+                      placeholder="Comenta algo acerca de @currentPost.Title!"></textarea>
         </div>
-    </div>
-}
+
+        <p class="text-danger">@Html.ValidationMessage("commentInput")</p>
+        <input type="submit" class="btn btn-light" name="add" value="Agregar comentario" />
+    </form>
+
+    @foreach (Comment comment in comments)
+    {
+        var commentFormatted = Markdown.ToHtml(comment.Content);
+
+        <div class="card my-4">
+            <div class="card-body">
+                <h5 class="card-title">@comment.User.FullName</h5>
+                <h6 class="card-subtitle mb-2 text-muted">@comment.CreatedAt</h6>
+                <hr />
+                <p class="card-text">@(new HtmlString(commentFormatted))</p>
+                <a class="card-link" style="display: @showEdition" data-bs-toggle="modal" data-bs-target="#commentEditor_@(comment.CommentId)">Editar</a>
+                <a class="card-link" style="display: @showEdition" data-bs-toggle="modal" data-bs-target="#commentDeletion_@(comment.CommentId)">Eliminar</a>
+
+                @RenderPage("~/Components/_ModalCommentEditor.cshtml", comment)
+                @RenderPage("~/Components/_ModalCommentDeletion.cshtml", comment)
+            </div>
+        </div>
+    }
+</div>

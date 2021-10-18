@@ -1,10 +1,32 @@
-﻿@{
-    string homeUrl = "~/index.cshtml";
+﻿
+@{
+    string homeUrl = "~/";
     string subjectsUrl = "~/Views/Subjects.cshtml";
     string teachersUrl = "~/Views/Teachers.cshtml";
+    string LogInSingUp = "~/Views/LogInSingUp.cshtml";
+
+    string visibilitySessionOut = "";
+    string visibilitySessionIn = "";
+
+    if (Session["user"] != null)
+    {
+        visibilitySessionOut = "hidden";
+        visibilitySessionIn = "visible";
+    }
+    else
+    {
+        visibilitySessionOut = "visible";
+        visibilitySessionIn = "hidden";
+    }
+
+    void SessionOff()
+    {
+        Session.Contents.RemoveAll();
+        Response.Redirect("LogInSingUp.cshtml");
+    }
 }
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+@*<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#"><h2>Univlog</h2></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,4 +40,28 @@
             </div>
         </div>
     </div>
-</nav>
+</nav>*@
+
+<div class="body-header">
+    <header class="header">
+        <nav class="navbar navbar-expand-lg fixed-top py-3">
+            <div class="container">
+                <a href="@Href(homeUrl)" class="navbar-brand text-uppercase font-weight-bold">Univlog</a>
+                <button type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler navbar-toggler-right"><i class="fa fa-bars"></i></button>
+
+                <div id="navbarSupportedContent" class="collapse navbar-collapse">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active"><a href="@Href(homeUrl)" class="nav-link text-uppercase font-weight-bold">Inicio</a></li>
+                        <li class="nav-item"><a href="@Href(subjectsUrl)" class="nav-link text-uppercase font-weight-bold">Materias</a></li>
+                        <li class="nav-item"><a href="@Href(teachersUrl)" class="nav-link text-uppercase font-weight-bold">Docentes</a></li>
+                        <li class="nav-item"><span class="nav-link text-uppercase font-weight-bold"> | </span></li>
+                        <li class="nav-item session-out bg-success px-2 @visibilitySessionOut"><a href="@Href(LogInSingUp)" class="nav-link text-uppercase font-weight-bold">Ingresar</a></li>
+                        <li class="nav-item session-in @visibilitySessionIn"><span id="user" class="nav-link text-uppercase font-weight-bold"> @Session["user"] - @Session["roleStr"] </span></li>
+                        <li class="nav-item session-in bg-success @visibilitySessionIn"><a href="@Href(LogInSingUp)" class="nav-link text-uppercase font-weight-bold">Cerrar Sesión</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+</div>

@@ -19,34 +19,36 @@
     }
 }
 
-<div class="my-4 p-5 text-white rounded" style="background: #81063E">
-    <h1>ISI - Docentes</h1>
-</div>
+<div class="container">
+    <div class="my-4 p-5 text-white rounded" style="background: #81063E">
+        <h1>Foro de Docentes</h1>
+    </div>
 
-<form class="row g-2 mb-4" method="post">
-    <input class="form-control col mx-1" list="datalistOptions" placeholder="Buscar..." name="searchText">
-    <datalist id="datalistOptions">
+    <form class="row g-2 mb-4" method="post">
+        <input class="form-control col mx-1" list="datalistOptions" placeholder="Buscar docente..." name="searchText">
+        <datalist id="datalistOptions">
+            @foreach (Post teacher in teachersPosts)
+            {
+                <option value="@teacher.Title" />
+            }
+        </datalist>
+
+        <input type="submit" class="btn btn-secondary col-1 mx-1" value="Buscar" />
+    </form>
+
+    <div class="row row-cols-1 row-cols-md-4 g-4">
         @foreach (Post teacher in teachersPosts)
         {
-            <option value="@teacher.Title" />
-        }
-    </datalist>
-
-    <input type="submit" class="btn btn-secondary col-1 mx-1" value="Buscar" />
-</form>
-
-<div class="row row-cols-1 row-cols-md-4 g-4">
-    @foreach (Post teacher in teachersPosts)
-    {
-        <div class="col">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h4 class="card-title mt-2">@teacher.Title</h4>
-                    <div class="d-grid mt-4">
-                        <a href="@Href("~/Views/Comments", teacher.PostId)" class="btn btn-outline-secondary">Ver comentarios</a>
+            <div class="col">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h4 class="card-title mt-2">@teacher.Title</h4>
+                        <div class="d-grid mt-4">
+                            <a href="@Href("~/Views/Comments", teacher.PostId)" class="btn btn-outline-secondary">Ver comentarios</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>

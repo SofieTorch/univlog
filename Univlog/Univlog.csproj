@@ -160,6 +160,10 @@
     <Content Include="Scripts\bootstrap.esm.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Views\Css\Footer_Style.css" />
+    <Content Include="Views\Css\Header_Style.css" />
+    <Content Include="Views\Css\LogInSignUp_Style.css" />
+    <Content Include="Views\Scripts\Header_Script.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -174,7 +178,7 @@
   <ItemGroup>
     <Content Include="Components\_ModalCommentEditor.cshtml" />
     <Content Include="Components\_ModalCommentDeletion.cshtml" />
-    <None Include="Index.cshtml" />
+    <None Include="index.cshtml" />
     <Content Include="libman.json" />
     <None Include="packages.config" />
     <Content Include="Views\Layouts\Footer.cshtml" />
@@ -183,6 +187,7 @@
     <Content Include="Views\Subjects.cshtml" />
     <Content Include="Views\Teachers.cshtml" />
     <Content Include="Views\Comments.cshtml" />
+    <Content Include="Views\LogInSingUp.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
