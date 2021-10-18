@@ -3,19 +3,26 @@
 @{
     Layout = "~/Views/Layouts/Layout.cshtml";
     Page.Title = "Univlog | Materias";
-    PostAccess dbAccess = new PostAccess();
-    IEnumerable<Post> subjectsPosts = dbAccess.GetSubjectsPosts();
+    PostAccess postAccess = new PostAccess();
+    IEnumerable<Post> subjectsPosts = postAccess.GetSubjectsPosts();
 }
 
-<h3>Materias :D</h3>
+<div class="my-4 p-5 bg-light rounded">
+    <h1>ISI - Materias</h1>
+</div>
 
+<div class="row row-cols-1 row-cols-md-4 g-4">
 @foreach (Post subject in subjectsPosts)
 {
-    <div class="card my-4">
-        <div class="card-body">
-            <h5 class="card-title">@subject.Title</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="@Href("~/Views/Comments", subject.PostId)" class="btn btn-primary">Ver comentarios</a>
+    <div class="col">
+        <div class="card text-center">
+            <div class="card-body">
+                <h4 class="card-title mt-2">@subject.Title</h4>
+                <div class="d-grid mt-4">
+                    <a href="@Href("~/Views/Comments", subject.PostId)" class="btn btn-outline-info">Ver comentarios</a>
+                </div>
+            </div>
         </div>
     </div>
 }
+</div>
