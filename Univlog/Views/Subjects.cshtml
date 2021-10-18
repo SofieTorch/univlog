@@ -5,24 +5,49 @@
     Page.Title = "Univlog | Materias";
     PostAccess postAccess = new PostAccess();
     IEnumerable<Post> subjectsPosts = postAccess.GetSubjectsPosts();
+
+    if (IsPost)
+    {
+        if (Request["searchText"].Length > 0)
+        {
+            subjectsPosts = subjectsPosts.Where(s => s.Title.ToLower().Contains(Request["searchText"].ToLower()));
+        }
+        else
+        {
+            Response.Redirect("~/Views/Subjects.cshtml");
+        }
+    }
 }
 
 <div class="my-4 p-5 text-white rounded" style="background: #81063E">
     <h1>ISI - Materias</h1>
 </div>
 
+<form class="row g-2 mb-4" method="post">
+    <input class="form-control col mx-1" list="datalistOptions" placeholder="Buscar..." name="searchText">
+    <datalist id="datalistOptions">
+        @foreach (Post subject in subjectsPosts)
+        {
+            <option value="@subject.Title" />
+        }
+    </datalist>
+
+    <input type="submit" class="btn btn-secondary col-1 mx-1" value="Buscar"/>
+</form>
+
+
 <div class="row row-cols-1 row-cols-md-4 g-4">
-@foreach (Post subject in subjectsPosts)
-{
-    <div class="col">
-        <div class="card text-center">
-            <div class="card-body">
-                <h4 class="card-title mt-2">@subject.Title</h4>
-                <div class="d-grid mt-4">
-                    <a href="@Href("~/Views/Comments", subject.PostId)" class="btn btn-outline-secondary">Ver comentarios</a>
+    @foreach (Post subject in subjectsPosts)
+    {
+        <div class="col">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h4 class="card-title mt-2">@subject.Title</h4>
+                    <div class="d-grid mt-4">
+                        <a href="@Href("~/Views/Comments", subject.PostId)" class="btn btn-outline-secondary">Ver comentarios</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-}
+    }
 </div>

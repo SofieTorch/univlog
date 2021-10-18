@@ -5,11 +5,35 @@
     Page.Title = "Univlog | Materias";
     PostAccess postAccess = new PostAccess();
     IEnumerable<Post> teachersPosts = postAccess.GetTeachersPosts();
+
+    if (IsPost)
+    {
+        if (Request["searchText"].Length > 0)
+        {
+            teachersPosts = teachersPosts.Where(s => s.Title.ToLower().Contains(Request["searchText"].ToLower()));
+        }
+        else
+        {
+            Response.Redirect("~/Views/Teachers.cshtml");
+        }
+    }
 }
 
 <div class="my-4 p-5 text-white rounded" style="background: #81063E">
     <h1>ISI - Docentes</h1>
 </div>
+
+<form class="row g-2 mb-4" method="post">
+    <input class="form-control col mx-1" list="datalistOptions" placeholder="Buscar..." name="searchText">
+    <datalist id="datalistOptions">
+        @foreach (Post teacher in teachersPosts)
+        {
+            <option value="@teacher.Title" />
+        }
+    </datalist>
+
+    <input type="submit" class="btn btn-secondary col-1 mx-1" value="Buscar" />
+</form>
 
 <div class="row row-cols-1 row-cols-md-4 g-4">
     @foreach (Post teacher in teachersPosts)
