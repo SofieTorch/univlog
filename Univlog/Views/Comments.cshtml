@@ -48,13 +48,14 @@
             <h6 class="card-subtitle mb-2 text-muted">@comment.CreatedAt</h6>
             <hr />
             <p class="card-text">@(new HtmlString(commentFormatted))</p>
-            <a class="card-link" data-bs-toggle="modal" data-bs-target="#commentEditor">Editar</a>
-            <a class="card-link" data-bs-toggle="modal" data-bs-target="#commentDeletion">Eliminar</a>
+            <a class="card-link" data-bs-toggle="modal" data-bs-target="#commentEditor_@(comment.CommentId)">Editar</a>
+            <a class="card-link" data-bs-toggle="modal" data-bs-target="#commentDeletion_@(comment.CommentId)">Eliminar</a>
+
+            @RenderPage("~/Components/_ModalCommentEditor.cshtml", comment)
+            @RenderPage("~/Components/_ModalCommentDeletion.cshtml", comment)
         </div>
     </div>
     
-    @RenderPage("~/Components/_ModalCommentEditor.cshtml", comment)
-    @RenderPage("~/Components/_ModalCommentDeletion.cshtml", comment)
 }
 
 

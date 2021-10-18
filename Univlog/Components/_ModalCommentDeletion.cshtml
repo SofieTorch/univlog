@@ -7,7 +7,7 @@
 
     if (IsPost)
     {
-        if (Request.Form["delete"] != null)
+        if (Request.Form["delete" + comment.CommentId] != null)
         {
             CommentAccess commentAccess = new CommentAccess();
             bool success = commentAccess.Delete(comment);
@@ -15,7 +15,7 @@
     }
 }
 
-<div class="modal fade" id="commentDeletion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="commentDeletion_@(comment.CommentId)" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -28,7 +28,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                    <input type="submit" class="btn btn-primary" name="delete" value="Eliminar comentario" />
+                    <input type="submit" class="btn btn-primary" name="delete@(comment.CommentId)" value="Eliminar comentario" />
                 </div>
             </form>
         </div>

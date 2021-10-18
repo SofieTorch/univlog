@@ -4,7 +4,7 @@
     Comment comment = Page[0];
 
     if (IsPost) {
-        if (Request.Form["edit"] != null) {
+        if (Request.Form["edit" + comment.CommentId] != null) {
             string newContent = Request.Form["commentEditor"];
             comment.Content = newContent;
             CommentAccess commentAccess = new CommentAccess();
@@ -13,7 +13,7 @@
     }
 }
 
-<div class="modal fade" id="commentEditor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="commentEditor_@(comment.CommentId)" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -28,7 +28,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                    <input type="submit" class="btn btn-primary" name="edit" value="Guardar cambios"/>
+                    <input type="submit" class="btn btn-primary" name="edit@(comment.CommentId)" value="Guardar cambios"/>
                 </div>
             </form>
         </div>
