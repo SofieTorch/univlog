@@ -30,7 +30,9 @@ namespace Univlog.Data_Access
                 string query = "SELECT * FROM [User] WHERE UserId = @0";
 
                 var row = conn.QuerySingle(query, id);
-                res = new User(row.UserId, row.Name, row.PaternalSurname, row.MaternalSurname, row.Email, row.Role);
+
+                if (row != null)
+                    res = new User(row.UserId, row.Name, row.PaternalSurname, row.MaternalSurname, row.Email, row.Role);
             }
             catch (Exception)
             {
@@ -50,7 +52,10 @@ namespace Univlog.Data_Access
                 string query = "SELECT * FROM [User] WHERE Email = @0 AND Password = HashBytes('MD5', @1)";
 
                 var row = conn.QuerySingle(query, email, password);
-                res = new User(row.UserId, row.Name, row.PaternalSurname, row.MaternalSurname, row.Email, row.Role);
+
+                if (row != null)
+                    res = new User(row.UserId, row.Name, row.PaternalSurname, row.MaternalSurname, row.Email, row.Role);
+
             }
             catch (Exception)
             {
@@ -61,6 +66,24 @@ namespace Univlog.Data_Access
             return res;
         }
 
+        public bool EmailExists(string email)
+        {
+            try
+            {
+                Database conn = Database.Open("UnivlogDB");
+                string query = "SELECT * FROM [User] WHERE Email = @0";
+
+                var row = conn.QuerySingle(query, email);
+                bool success = row != null;
+
+                return success;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
     }
 }

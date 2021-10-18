@@ -112,6 +112,7 @@
     <Content Include="App_Data\UnivlogDB_log.ldf">
       <DependentUpon>UnivlogDB.mdf</DependentUpon>
     </Content>
+    <Content Include="Views\Css\Footer_Style.css" />
     <Content Include="Views\Css\Header_Style.css" />
     <Content Include="Views\Css\LogInSignUp_Style.css" />
     <Content Include="Views\Scripts\Header_Script.js" />

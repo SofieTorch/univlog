@@ -21,8 +21,20 @@ namespace Univlog.Models
         }
 
         public string GetRoleString()
+        {            
+            if (RoleCode == 0)
+                return "Estudiante";
+            else
+                return "Docente";
+        }
+
+        public byte GetRoleByte()
         {
-            return "Estudiante";
+            string pattern = Email.Trim().Substring(Email.Trim().IndexOf('@'));
+            if (pattern.Contains("est"))
+                return 0;
+            else
+                return 1;
         }
 
         public User()
@@ -59,6 +71,13 @@ namespace Univlog.Models
             RoleCode = roleCode;
         }
 
-
+        public User(string name, string paternalSurname, string maternalSurname, string email, string password)
+        {
+            Name = name;
+            PaternalSurname = paternalSurname;
+            MaternalSurname = maternalSurname;
+            Email = email;
+            Password = password;
+        }
     }
 }
