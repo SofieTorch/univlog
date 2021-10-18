@@ -88,14 +88,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="View\Css\Header_Style.css" />
+    <Content Include="View\Css\LogInSignUp_Style.css" />
+    <Content Include="View\Scripts\Header_Script.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Index.cshtml" />
+    <Content Include="Index.cshtml" />
     <None Include="packages.config" />
+    <Content Include="View\Layouts\Header.cshtml" />
+    <Content Include="View\Layouts\Footer.cshtml" />
+    <Content Include="View\LogInSingUp.cshtml" />
+    <Content Include="View\Cours.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
