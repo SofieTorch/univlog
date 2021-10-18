@@ -14,7 +14,7 @@
 
     if (IsPost)
     {
-        if(Request.Form["add"] != null && Validation.IsValid()) {
+        if(Request.Form["add"] != null && Validation.IsValid("commentInput")) {
             string commentContent = Request.Form["commentInput"];
             Comment comment = new Comment(commentContent, currentPost.PostId, 1);
             commentAccess.Add(comment);
@@ -33,7 +33,7 @@
                   placeholder="Comenta algo acerca de @currentPost.Title!"></textarea>
     </div>
 
-    <div class="text-danger">@Html.ValidationSummary()</div>
+    <p class="text-danger">@Html.ValidationMessage("commentInput")</p>
     <input type="submit" class="btn btn-light" name="add" value="Agregar comentario" />
 </form>
 

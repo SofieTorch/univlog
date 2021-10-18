@@ -3,8 +3,11 @@
 @{
     Comment comment = Page[0];
 
+    Validation.RequireField("commentEditor", "No dejes el comentario vacío D':");
+    Validation.Add("commentEditor", Validator.StringLength(599));
+
     if (IsPost) {
-        if (Request.Form["edit" + comment.CommentId] != null) {
+        if (Request.Form["edit" + comment.CommentId] != null && Validation.IsValid("commentEditor")) {
             string newContent = Request.Form["commentEditor"];
             comment.Content = newContent;
             CommentAccess commentAccess = new CommentAccess();
@@ -29,6 +32,7 @@
                     <div class="mb-2">
                         <textarea class="form-control" id="commentTextField" name="commentEditor" rows="3" maxlength="599">@comment.Content</textarea>
                     </div>
+                    <p class="text-danger">@Html.ValidationMessage("commentEditor")</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
