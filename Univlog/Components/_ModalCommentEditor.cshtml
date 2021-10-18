@@ -9,6 +9,10 @@
             comment.Content = newContent;
             CommentAccess commentAccess = new CommentAccess();
             bool success = commentAccess.Update(comment);
+            if (success)
+            {
+                Response.Redirect("~/Views/Comments/" + comment.PostId);
+            }
         }
     }
 }
@@ -20,7 +24,7 @@
                 <h5 class="modal-title" id="staticBackdropLabel">Editar comentario</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="post">
+            <form method="post" action="">
                 <div class="modal-body">
                     <div class="mb-2">
                         <textarea class="form-control" id="commentTextField" name="commentEditor" rows="3">@comment.Content</textarea>

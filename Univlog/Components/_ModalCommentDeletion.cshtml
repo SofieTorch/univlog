@@ -11,6 +11,10 @@
         {
             CommentAccess commentAccess = new CommentAccess();
             bool success = commentAccess.Delete(comment);
+            if (success)
+            {
+                Response.Redirect("~/Views/Comments/" + comment.PostId);
+            }
         }
     }
 }
@@ -22,7 +26,7 @@
                 <h5 class="modal-title" id="staticBackdropLabel">¿Eliminar el siguiente comentario?</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="post">
+            <form method="post" action="">
                 <div class="modal-body">
                     @(new HtmlString(commentFormatted))
                 </div>
