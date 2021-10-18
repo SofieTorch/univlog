@@ -7,7 +7,7 @@
     IEnumerable<Post> subjectsPosts = postAccess.GetSubjectsPosts();
 }
 
-<div class="my-4 p-5 bg-light rounded">
+<div class="my-4 p-5 text-white rounded" style="background: #81063E">
     <h1>ISI - Materias</h1>
 </div>
 
@@ -19,7 +19,7 @@
             <div class="card-body">
                 <h4 class="card-title mt-2">@subject.Title</h4>
                 <div class="d-grid mt-4">
-                    <a href="@Href("~/Views/Comments", subject.PostId)" class="btn btn-outline-info">Ver comentarios</a>
+                    <a href="@Href("~/Views/Comments", subject.PostId)" class="btn btn-outline-secondary">Ver comentarios</a>
                 </div>
             </div>
         </div>
