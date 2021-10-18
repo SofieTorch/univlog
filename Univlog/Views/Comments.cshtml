@@ -9,19 +9,17 @@
     CommentAccess commentAccess = new CommentAccess();
     IEnumerable<Comment> comments = commentAccess.GetFrom(currentPost.PostId);
 
+    Validation.RequireField("commentInput", "No dejes tu comentario vacío D':");
+    Validation.Add("commentInput", Validator.StringLength(599));
+
     if (IsPost)
     {
-        if(Request.Form["add"] != null) {
+        if(Request.Form["add"] != null && Validation.IsValid()) {
             string commentContent = Request.Form["commentInput"];
             Comment comment = new Comment(commentContent, currentPost.PostId, 1);
             commentAccess.Add(comment);
-            refreshComments();
+            comments = commentAccess.GetFrom(currentPost.PostId);
         }
-    }
-
-    void refreshComments()
-    {
-        comments = commentAccess.GetFrom(currentPost.PostId);
     }
 }
 
@@ -31,11 +29,12 @@
 
 <form method="post" action="">
     <div class="mb-2">
-        <textarea class="form-control" id="commentTextField" name="commentInput" rows="3"
+        <textarea class="form-control" id="commentTextField" name="commentInput" rows="3" maxlength="599"
                   placeholder="Comenta algo acerca de @currentPost.Title!"></textarea>
     </div>
 
-    <input type="submit" class="btn btn-light" name="add" value="Agregar comentario"/>
+    <div class="text-danger">@Html.ValidationSummary()</div>
+    <input type="submit" class="btn btn-light" name="add" value="Agregar comentario" />
 </form>
 
 @foreach (Comment comment in comments)
@@ -55,8 +54,4 @@
             @RenderPage("~/Components/_ModalCommentDeletion.cshtml", comment)
         </div>
     </div>
-    
 }
-
-
-
