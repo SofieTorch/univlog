@@ -2,7 +2,7 @@
 @using Univlog.Models;
 @using Markdig;
 @{
-    Layout = "~/Views/Layouts/Layout.cshtml";
+    Layout = "~/Views/Layouts/_Layout.cshtml";
     int postId = Convert.ToInt32(UrlData[0]);
     PostAccess postAccess = new PostAccess();
     Post currentPost = postAccess.Get(postId);

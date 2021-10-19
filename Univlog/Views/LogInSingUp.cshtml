@@ -2,7 +2,7 @@
 @using Univlog.Data_Access;
 
 @{
-    Layout = "~/Views/Layouts/Layout.cshtml";
+    Layout = "~/Views/Layouts/_Layout.cshtml";
     Page.Title = "Univlog | Iniciar Sesión - Registrarse";
     Session.Contents.RemoveAll();
     UserAccess userAccess = new UserAccess();
@@ -52,11 +52,7 @@
 
                 if (userAccess.Add(user))
                 {
-                    Session["user"] = user.FullName;
-                    Session["userId"] = user.UserId;
-                    Session["roleStr"] = user.GetRoleString();
-                    Session["role"] = user.RoleCode;
-                    Response.Redirect("~/");
+                    logIn(email, password);
                 }
             }
             else
@@ -66,36 +62,32 @@
         }
         else if (status == "V" && Validation.IsValid("emailLogIn", "passwordLogIn"))
         {
-            try
-            {
-                var emailLogIn = Request["emailLogIn"];
-                var passwordLogIn = Request["passwordLogIn"];
-
-                user = userAccess.LogIn(emailLogIn, passwordLogIn);
-
-                if (user != null)
-                {
-                    Session["user"] = user.FullName;
-                    Session["userId"] = user.UserId;
-                    Session["roleStr"] = user.GetRoleString();
-                    Session["role"] = user.RoleCode;
-                    Response.Redirect("~/");
-                }
-                else
-                {
-                    msgUserIncorrect = "Correo o contraseña incorrectas.";
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
+            var emailLogIn = Request["emailLogIn"];
+            var passwordLogIn = Request["passwordLogIn"];
+            logIn(emailLogIn, passwordLogIn);
         }
     }
     #endregion
 
+    #region functions
+    void logIn(string email, string password)
+    {
+        user = userAccess.LogIn(email, password);
+
+        if (user != null)
+        {
+            Session["user"] = user.FullName;
+            Session["userId"] = user.UserId;
+            Session["roleStr"] = user.GetRoleString();
+            Session["role"] = user.RoleCode;
+            Response.Redirect("~/");
+        }
+        else
+        {
+            msgUserIncorrect = "Correo o contraseña incorrectas.";
+        }
+    }
+    #endregion
 }
 
 <div class="body-session">

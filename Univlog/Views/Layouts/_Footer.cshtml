@@ -1,0 +1,32 @@
+﻿@{ string homeUrl = "~/Views/index.cshtml";
+                string subjectsUrl = "~/Views/Subjects.cshtml";
+                string teachersUrl = "~/Views/Teachers.cshtml"; }
+
+<div class="footer-dark">
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-3 item">
+                    <h3>Foros</h3>
+                    <ul>
+                        <li><a href="@Href(homeUrl)">Inicio</a></li>
+                        <li><a href="@Href(subjectsUrl)">Foro de materias</a></li>
+                        <li><a href="@Href(teachersUrl)">Foro de docentes</a></li>
+                    </ul>
+                </div>
+                @*<div class="col-sm-6 col-md-3 item">
+                    <h3>Acerca de</h3>
+                    <ul>
+                        <li><a href="#">Equipo de desarrollo</a></li>
+                        <li><a href="#">Carreras</a></li>
+                    </ul>
+                </div>*@
+                <div class="col-md-6 item text">
+                    <h3>Univalle</h3>
+                    <p>Univalle, ¡Una universidad para todos!</p>
+                </div>
+            </div>
+            <p class="copyright">Equipo de Sofía y Daniel © 2021</p>
+        </div>
+    </footer>
+</div>

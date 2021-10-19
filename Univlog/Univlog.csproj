@@ -181,9 +181,9 @@
     <None Include="index.cshtml" />
     <Content Include="libman.json" />
     <None Include="packages.config" />
-    <Content Include="Views\Layouts\Footer.cshtml" />
-    <Content Include="Views\Layouts\Header.cshtml" />
-    <Content Include="Views\Layouts\Layout.cshtml" />
+    <Content Include="Views\Layouts\_Footer.cshtml" />
+    <Content Include="Views\Layouts\_Header.cshtml" />
+    <Content Include="Views\Layouts\_Layout.cshtml" />
     <Content Include="Views\Subjects.cshtml" />
     <Content Include="Views\Teachers.cshtml" />
     <Content Include="Views\Comments.cshtml" />
